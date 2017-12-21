@@ -5,4 +5,6 @@ package com.example.javier.healthera.utils;
  */
 
 public class Constants {
+    public static final String URL_BASE = "https://api.84r.co/patients/";
+
 }
