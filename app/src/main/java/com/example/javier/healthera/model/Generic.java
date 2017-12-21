@@ -1,10 +1,12 @@
 package com.example.javier.healthera.model;
 
+import java.io.Serializable;
+
 /**
  * Created by Javier on 21/12/2017.
  */
 
-public class Generic {
+public class Generic  implements Serializable {
 
     String actionAndDose;
     String time;

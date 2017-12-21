@@ -3,6 +3,7 @@ package com.example.javier.healthera;
 import com.example.javier.healthera.model.RemoteDataSource;
 import com.example.javier.healthera.model.adherence.Adherence;
 import com.example.javier.healthera.model.adherence.Datum;
+import com.example.javier.healthera.model.remedy.Remedy;
 import com.google.gson.Gson;
 
 import org.junit.Before;
@@ -29,6 +30,7 @@ public class RemoteDataSourceTest {
     Adherence mResult;
     MockWebServer mMockWebServer;
     TestSubscriber<Adherence> mSubscriber;
+    TestSubscriber<Remedy> mSubscriberRemedy;
 
     @Before
     public void setUp() {
@@ -40,10 +42,11 @@ public class RemoteDataSourceTest {
 
         mMockWebServer = new MockWebServer();
         mSubscriber = new TestSubscriber<>();
+        mSubscriberRemedy = new TestSubscriber<>();
     }
 
     @Test
-    public void serverCallWithError() {
+    public void serverCallAdherenceWithError() {
         //Given
         String url = "dfdf/";
         mMockWebServer.enqueue(new MockResponse().setBody(new Gson().toJson(mResult)));
@@ -63,13 +66,15 @@ public class RemoteDataSourceTest {
     }
 
     @Test
-    public void severCallWithSuccessful() {
+    public void severCallAdherenceWithSuccessful() {
+        String url = URL_BASE + "99863cb0-e001-11e7-a8d8-010d4f584d4e/";
+
         //Given
         mMockWebServer.enqueue(new MockResponse().setBody(new Gson().toJson(mResult)));
         Retrofit retrofit = new Retrofit.Builder()
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl(mMockWebServer.url(URL_BASE))
+                .baseUrl(mMockWebServer.url(url))
                 .build();
         RemoteDataSource remoteDataSource = new RemoteDataSource(retrofit);
 
@@ -79,5 +84,48 @@ public class RemoteDataSourceTest {
         //Then
         mSubscriber.assertNoErrors();
         mSubscriber.assertCompleted();
+    }
+
+    @Test
+    public void serverCallRemedyWithError() {
+        //Given
+        String url = "dfdf/";
+        mMockWebServer.enqueue(new MockResponse().setBody(new Gson().toJson(mResult)));
+        Retrofit retrofit = new Retrofit.Builder()
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl(mMockWebServer.url(url))
+                .build();
+        RemoteDataSource remoteDataSource = new RemoteDataSource(retrofit);
+
+        //When
+        remoteDataSource.getRemedy().subscribe(mSubscriberRemedy);
+
+        //Then
+        mSubscriberRemedy.assertNoErrors();
+        mSubscriberRemedy.assertCompleted();
+    }
+
+    @Test
+    public void serverCallRemedyWithSuccessful() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("99863cb0-e001-11e7-a8d8-010d4f584d4e/");
+        stringBuilder.append("remedies/");
+        stringBuilder.append("62384cb0-e003-11e7-b96e-59e9d4c851ec/");
+        String url = URL_BASE + stringBuilder.toString();
+        mMockWebServer.enqueue(new MockResponse().setBody(new Gson().toJson(mResult)));
+        Retrofit retrofit = new Retrofit.Builder()
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl(mMockWebServer.url(url))
+                .build();
+        RemoteDataSource remoteDataSource = new RemoteDataSource(retrofit);
+
+        //When
+        remoteDataSource.getRemedy().subscribe(mSubscriberRemedy);
+
+        //Then
+        mSubscriberRemedy.assertNoErrors();
+        mSubscriberRemedy.assertCompleted();
     }
 }

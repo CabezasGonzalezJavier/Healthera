@@ -1,6 +1,7 @@
 package com.example.javier.healthera.model;
 
 import com.example.javier.healthera.model.adherence.Adherence;
+import com.example.javier.healthera.model.remedy.Remedy;
 
 import retrofit2.Retrofit;
 import rx.Observable;
@@ -22,6 +23,11 @@ public class RemoteDataSource implements Service {
     @Override
     public Observable<Adherence> getAdherence() {
         return api.getAdherence();
+    }
+
+    @Override
+    public Observable<Remedy> getRemedy() {
+        return api.getRemedy();
     }
 
 }

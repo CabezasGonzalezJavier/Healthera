@@ -1,14 +1,12 @@
-package com.example.javier.healthera.adherence;
+package com.example.javier.healthera.remedy;
 
 import android.support.annotation.NonNull;
 
-import com.example.javier.healthera.R;
+import com.example.javier.healthera.adherence.AdherenceContract;
 import com.example.javier.healthera.model.RemoteDataSource;
 import com.example.javier.healthera.model.adherence.Adherence;
-import com.example.javier.healthera.model.adherence.Datum;
+import com.example.javier.healthera.model.remedy.Remedy;
 import com.example.javier.healthera.utils.scheduler.BaseSchedulerProvider;
-
-import java.util.List;
 
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -16,7 +14,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 
-import static com.example.javier.healthera.model.CreateGenericList.getGenericList;
 import static com.example.javier.healthera.utils.Constants.URL_BASE;
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -24,10 +21,11 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Created by Javier on 21/12/2017.
  */
 
-public class AdherencePresenter implements AdherenceContract.Presenter {
+public class RemedyPresenter implements RemedyContract.Presenter {
+
 
     @NonNull
-    private AdherenceContract.View mView;
+    private RemedyContract.View mView;
 
     @NonNull
     private BaseSchedulerProvider mSchedulerProvider;
@@ -38,9 +36,11 @@ public class AdherencePresenter implements AdherenceContract.Presenter {
     @NonNull
     private RemoteDataSource mRemoteDataSource;
 
-    public AdherencePresenter(@NonNull AdherenceContract.View view, @NonNull BaseSchedulerProvider provider, String url) {
+    public RemedyPresenter(@NonNull RemedyContract.View view, @NonNull BaseSchedulerProvider provider, String url) {
+
         this.mView = checkNotNull(view, "view cannot be null!");
         this.mSchedulerProvider = checkNotNull(provider, "schedulerProvider cannot be null");
+
         this.mRemoteDataSource = new RemoteDataSource(new Retrofit.Builder()
                 .baseUrl(URL_BASE+url)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -50,7 +50,6 @@ public class AdherencePresenter implements AdherenceContract.Presenter {
 
         mView.setPresenter(this);
     }
-
 
     @Override
     public void subscribe() {
@@ -64,13 +63,14 @@ public class AdherencePresenter implements AdherenceContract.Presenter {
 
     @Override
     public void fetch() {
+
         mView.setLoadingIndicator(true);
-        Subscription subscription = mRemoteDataSource.getAdherence()
+        Subscription subscription = mRemoteDataSource.getRemedy()
                 .subscribeOn(mSchedulerProvider.computation())
                 .observeOn(mSchedulerProvider.ui())
-                .subscribe((Adherence adherence) -> {
+                .subscribe((Remedy remedy) -> {
                             mView.setLoadingIndicator(false);
-                            mView.getDatum(adherence.getData());
+                            mView.showRemedy(remedy);
                         },
                         (Throwable error) -> {
                             try {
@@ -84,10 +84,5 @@ public class AdherencePresenter implements AdherenceContract.Presenter {
                         });
 
         mSubscriptions.add(subscription);
-    }
-
-    @Override
-    public void createGeneric(List<Datum> datums, String tablet, String tablets, String noFound) {
-        mView.showAdherence(getGenericList(datums, tablet, tablets, noFound));
     }
 }

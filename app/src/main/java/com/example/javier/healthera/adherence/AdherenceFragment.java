@@ -1,5 +1,6 @@
 package com.example.javier.healthera.adherence;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
@@ -15,6 +16,7 @@ import android.widget.ProgressBar;
 import com.example.javier.healthera.R;
 import com.example.javier.healthera.model.Generic;
 import com.example.javier.healthera.model.adherence.Datum;
+import com.example.javier.healthera.utils.InteractionListener;
 
 import java.util.List;
 
@@ -28,7 +30,7 @@ import static android.support.design.widget.Snackbar.LENGTH_LONG;
  * Created by Javier on 21/12/2017.
  */
 
-public class AdherenceFragment extends Fragment implements AdherenceContract.View {
+public class AdherenceFragment extends Fragment implements AdherenceContract.View, AdherenceAdapter.ClickListener {
 
     @BindView(R.id.adherence_fragment_progress)
     ProgressBar mProgressBar;
@@ -45,6 +47,10 @@ public class AdherenceFragment extends Fragment implements AdherenceContract.Vie
     AdherenceAdapter mAdapter;
 
     AdherenceContract.Presenter mPresenter;
+
+    List<Generic> mGenericList;
+
+    InteractionListener mListener;
 
     public static AdherenceFragment newInstance() {
         return new AdherenceFragment();
@@ -77,12 +83,13 @@ public class AdherenceFragment extends Fragment implements AdherenceContract.Vie
 
     @Override
     public void showAdherence(List<Generic> generics) {
+        mGenericList= generics;
         mRecyclerView.setHasFixedSize(true);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdapter = new AdherenceAdapter(getActivity(), generics);
         mRecyclerView.setAdapter(mAdapter);
-        //mAdapter.setOnItemClickListener(this);
+        mAdapter.setOnItemClickListener(this);
 
     }
 
@@ -112,5 +119,28 @@ public class AdherenceFragment extends Fragment implements AdherenceContract.Vie
     public void onClick() {
         setLoadingIndicator(false);
         mPresenter.fetch();
+    }
+
+    @Override
+    public void onItemClick(int position, View view) {
+        mListener.onFragmentInteraction(mGenericList.get(position));
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof InteractionListener) {
+            //init the listener
+            mListener = (InteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement InteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
     }
 }

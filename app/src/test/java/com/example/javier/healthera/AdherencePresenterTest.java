@@ -54,7 +54,7 @@ public class AdherencePresenterTest {
 
         MockitoAnnotations.initMocks(this);
         mSchedulerProvider = new ImmediateSchedulerProvider();
-        mPresenter = new AdherencePresenter(mRemoteDataSource, mView, mSchedulerProvider);
+        mPresenter = new AdherencePresenter(mView, mSchedulerProvider, "");
     }
 
     @Test
@@ -90,7 +90,7 @@ public class AdherencePresenterTest {
         List<Datum> list = new ArrayList<>();
         list.add(datum);
 
-        mPresenter.createGeneric(list, "", "");
+        mPresenter.createGeneric(list, "", "", "");
         verify(mView).showAdherence(anyList());
     }
 
@@ -101,7 +101,7 @@ public class AdherencePresenterTest {
         List<Datum> list = new ArrayList<>();
         list.add(datum);
 
-        mPresenter.createGeneric(list, "", "");
+        mPresenter.createGeneric(list, "", "", "");
         verify(mView).showAdherence(anyList());
     }
 
@@ -109,33 +109,33 @@ public class AdherencePresenterTest {
     @Test
     public void createGeneric_withActionAndDose() {
 
-        Datum datum = new Datum("adherenceId","patiendId", "remedyId");
+        Datum datum = new Datum("adherenceId", "patiendId", "remedyId");
         List<Datum> list = new ArrayList<>();
         list.add(datum);
 
-        mPresenter.createGeneric(list, "", "");
+        mPresenter.createGeneric(list, "", "", "");
         verify(mView).showAdherence(anyList());
     }
 
     @Test
     public void createGeneric_withAction() {
 
-        Datum datum = new Datum("adherenceId","patiendId", "remedyId", 1);
+        Datum datum = new Datum("adherenceId", "patiendId", "remedyId", 1);
         List<Datum> list = new ArrayList<>();
         list.add(datum);
 
-        mPresenter.createGeneric(list, "", "");
+        mPresenter.createGeneric(list, "", "", "");
         verify(mView).showAdherence(anyList());
     }
 
     @Test
     public void createGeneric() {
 
-        Datum datum = new Datum( "action", "adherenceId","patiendId", "remedyId", 1);
+        Datum datum = new Datum("action", "adherenceId", "patiendId", "remedyId", 1);
         List<Datum> list = new ArrayList<>();
         list.add(datum);
 
-        mPresenter.createGeneric(list, "", "");
+        mPresenter.createGeneric(list, "", "", "");
         verify(mView).showAdherence(anyList());
     }
 

@@ -30,16 +30,6 @@ public class AppModule {
 
     @Singleton
     @Provides
-    RemoteDataSource provideRemoteDataSource() {
-        return new RemoteDataSource(new Retrofit.Builder()
-                .baseUrl(URL_BASE)
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .build());
-    }
-
-    @Singleton
-    @Provides
     BaseSchedulerProvider provideSchedulerProvider() {
         return new SchedulerProvider();
     }
