@@ -20,6 +20,6 @@ public interface Service {
             "app-platform: ios",
             "app-version: 1.4"
     })
-    @GET(":99863cb0-e001-11e7-a8d8-010d4f584d4e/adherences")
+    @GET("99863cb0-e001-11e7-a8d8-010d4f584d4e/adherences")
     Observable<Adherence> getAdherence();
 }
