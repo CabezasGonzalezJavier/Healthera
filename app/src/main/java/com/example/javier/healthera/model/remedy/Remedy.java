@@ -15,6 +15,10 @@ public class Remedy  {
     @Expose
     private List<Datum> data = null;
 
+    public Remedy(List<Datum> data) {
+        this.data = data;
+    }
+
     public List<Datum> getData() {
         return data;
     }

@@ -79,6 +79,8 @@ public class RemedyActivity extends AppCompatActivity {
         }
 
         StringBuilder stringBuilder = new StringBuilder();
+
+        stringBuilder.append("patients/");
         stringBuilder.append(generic.getPatientId());
         stringBuilder.append("/remedies/");
         stringBuilder.append(generic.getRemedyId());

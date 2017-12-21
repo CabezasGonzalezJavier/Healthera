@@ -69,6 +69,11 @@ public class Datum {
     @Expose
     private Integer takerNum;
 
+
+    public Datum(String patientId) {
+        this.patientId = patientId;
+    }
+
     public String getPatientId() {
         return patientId;
     }

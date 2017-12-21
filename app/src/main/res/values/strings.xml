@@ -4,6 +4,9 @@
     <string name="error_server">There are some problems to bring the data</string>
 
 
+    <string name="login">Log in</string>
+    <string name="username">EMAIL</string>
+    <string name="password">PASSWORD</string>
     <string name="no_found">No found</string>
     <string name="tablet">tablet</string>
     <string name="tablets">tablets</string>

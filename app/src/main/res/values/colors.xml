@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#1fa356</color>
     <color name="colorAccent">#FF4081</color>
 
+    <color name="colorTextSize">@android:color/white</color>
     <color name="colorSemiTransparent">#80ffffff</color>
     <color name="colorBackgroundDirt">#ebebf0</color>
     <color name="colorBackground">@android:color/white</color>

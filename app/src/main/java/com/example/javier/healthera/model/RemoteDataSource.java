@@ -2,6 +2,7 @@ package com.example.javier.healthera.model;
 
 import com.example.javier.healthera.model.adherence.Adherence;
 import com.example.javier.healthera.model.remedy.Remedy;
+import com.example.javier.healthera.model.token.Token;
 
 import retrofit2.Retrofit;
 import rx.Observable;
@@ -18,6 +19,11 @@ public class RemoteDataSource implements Service {
 
 
         this.api = retrofit.create(Service.class);
+    }
+
+    @Override
+    public Observable<Token> getToken(String userName, String password) {
+        return api.getToken(userName,password);
     }
 
     @Override

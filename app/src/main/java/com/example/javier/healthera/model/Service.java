@@ -2,8 +2,11 @@ package com.example.javier.healthera.model;
 
 import com.example.javier.healthera.model.adherence.Adherence;
 import com.example.javier.healthera.model.remedy.Remedy;
+import com.example.javier.healthera.model.token.Token;
 
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import rx.Observable;
 import retrofit2.http.Headers;
 
@@ -13,6 +16,14 @@ import retrofit2.http.Headers;
 
 public interface Service {
 
+
+    @Headers({
+            "Content-Type: application/json",
+            "Accept: application/json",
+            "client-id: a4c7fdd994b14c0758e91dc997426f043868d4305702f4484220df51d56497b3"
+    })
+    @POST()
+    Observable<Token> getToken(@Body String username, @Body String userPassword);
     @Headers({
             "Content-Type: application/json",
             "Accept: application/json",

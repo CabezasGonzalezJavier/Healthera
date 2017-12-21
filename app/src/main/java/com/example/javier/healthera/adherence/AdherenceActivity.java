@@ -44,9 +44,11 @@ public class AdherenceActivity extends AppCompatActivity implements InteractionL
                     photoFragment, R.id.adherence_activity_contentFrame);
         }
 
-        String url = "99863cb0-e001-11e7-a8d8-010d4f584d4e/";
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("patients/");
+        stringBuilder.append("99863cb0-e001-11e7-a8d8-010d4f584d4e/");
 
-        new AdherencePresenter(photoFragment, mSchedulerProvider, url);
+        new AdherencePresenter(photoFragment, mSchedulerProvider, stringBuilder.toString());
 
     }
 
