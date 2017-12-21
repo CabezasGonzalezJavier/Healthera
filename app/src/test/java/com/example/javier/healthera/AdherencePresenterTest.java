@@ -2,6 +2,7 @@ package com.example.javier.healthera;
 
 import com.example.javier.healthera.adherence.AdherenceContract;
 import com.example.javier.healthera.adherence.AdherencePresenter;
+import com.example.javier.healthera.model.Generic;
 import com.example.javier.healthera.model.RemoteDataSource;
 import com.example.javier.healthera.model.adherence.Adherence;
 import com.example.javier.healthera.model.adherence.Datum;
@@ -20,6 +21,8 @@ import java.util.List;
 
 import rx.Observable;
 
+import static org.mockito.Matchers.anyList;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
@@ -64,7 +67,7 @@ public class AdherencePresenterTest {
         InOrder inOrder = Mockito.inOrder(mView);
         inOrder.verify(mView).setLoadingIndicator(true);
         inOrder.verify(mView).setLoadingIndicator(false);
-        inOrder.verify(mView).showAdherence(mResult.getData());
+        inOrder.verify(mView).getDatum(mResult.getData());
     }
 
     @Test
@@ -78,6 +81,62 @@ public class AdherencePresenterTest {
         InOrder inOrder = Mockito.inOrder(mView);
         inOrder.verify(mView).setLoadingIndicator(true);
         inOrder.verify(mView).showError();
+    }
+
+    @Test
+    public void createGeneric_withPatientIdAdherenceIdActionAndDose() {
+
+        Datum datum = new Datum("remedyId");
+        List<Datum> list = new ArrayList<>();
+        list.add(datum);
+
+        mPresenter.createGeneric(list, "", "");
+        verify(mView).showAdherence(anyList());
+    }
+
+    @Test
+    public void createGeneric_withAdherenceIdActionAndDose() {
+
+        Datum datum = new Datum("patiendId", "remedyId");
+        List<Datum> list = new ArrayList<>();
+        list.add(datum);
+
+        mPresenter.createGeneric(list, "", "");
+        verify(mView).showAdherence(anyList());
+    }
+
+
+    @Test
+    public void createGeneric_withActionAndDose() {
+
+        Datum datum = new Datum("adherenceId","patiendId", "remedyId");
+        List<Datum> list = new ArrayList<>();
+        list.add(datum);
+
+        mPresenter.createGeneric(list, "", "");
+        verify(mView).showAdherence(anyList());
+    }
+
+    @Test
+    public void createGeneric_withAction() {
+
+        Datum datum = new Datum("adherenceId","patiendId", "remedyId", 1);
+        List<Datum> list = new ArrayList<>();
+        list.add(datum);
+
+        mPresenter.createGeneric(list, "", "");
+        verify(mView).showAdherence(anyList());
+    }
+
+    @Test
+    public void createGeneric() {
+
+        Datum datum = new Datum( "action", "adherenceId","patiendId", "remedyId", 1);
+        List<Datum> list = new ArrayList<>();
+        list.add(datum);
+
+        mPresenter.createGeneric(list, "", "");
+        verify(mView).showAdherence(anyList());
     }
 
 }

@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.javier.healthera.R;
-import com.example.javier.healthera.model.adherence.Datum;
+import com.example.javier.healthera.model.Generic;
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ public class AdherenceAdapter extends RecyclerView
         .DataObjectHolder> {
 
     private Context mContext;
-    private List<Datum> mResult;
+    private List<Generic> mResult;
     private static AdherenceAdapter.ClickListener sClickListener;
 
     static class DataObjectHolder extends RecyclerView.ViewHolder
@@ -33,6 +33,9 @@ public class AdherenceAdapter extends RecyclerView
             .OnClickListener {
         @BindView(R.id.adherence_item_textView)
         TextView mName;
+
+        @BindView(R.id.adherence_item_time_textView)
+        TextView mTime;
 
         @BindView(R.id.adherence_item_constraintLayout)
         ConstraintLayout mConstraintLayout;
@@ -52,7 +55,7 @@ public class AdherenceAdapter extends RecyclerView
         this.sClickListener = myClickListener;
     }
 
-    public AdherenceAdapter(Context context, List<Datum> example) {
+    public AdherenceAdapter(Context context, List<Generic> example) {
         mContext = context;
         mResult = example;
     }
@@ -69,8 +72,8 @@ public class AdherenceAdapter extends RecyclerView
     @Override
     public void onBindViewHolder(AdherenceAdapter.DataObjectHolder holder, int position) {
 
-        holder.mName.setText(mResult.get(position).getAction());
-        //Glide.with(mContext).load(mResult.get(position).getMedia().getM()).into(holder.mImageView);
+        holder.mName.setText(mResult.get(position).getActionAndDose());
+        holder.mTime.setText(mResult.get(position).getTime());
 
     }
 

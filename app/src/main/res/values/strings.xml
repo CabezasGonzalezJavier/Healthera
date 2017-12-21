@@ -3,4 +3,9 @@
     <string name="retry">Retry</string>
     <string name="error_server">There are some problems to bring the data</string>
 
+
+    <string name="no_found">No found</string>
+    <string name="tablet">tablet</string>
+    <string name="tablets">tablets</string>
+    <string name="adherence_item_taken">Taken</string>
 </resources>

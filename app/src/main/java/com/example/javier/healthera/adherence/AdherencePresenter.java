@@ -2,13 +2,18 @@ package com.example.javier.healthera.adherence;
 
 import android.support.annotation.NonNull;
 
+import com.example.javier.healthera.R;
 import com.example.javier.healthera.model.RemoteDataSource;
 import com.example.javier.healthera.model.adherence.Adherence;
+import com.example.javier.healthera.model.adherence.Datum;
 import com.example.javier.healthera.utils.scheduler.BaseSchedulerProvider;
+
+import java.util.List;
 
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 
+import static com.example.javier.healthera.model.CreateGenericList.getGenericList;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -58,7 +63,7 @@ public class AdherencePresenter implements AdherenceContract.Presenter {
                 .observeOn(mSchedulerProvider.ui())
                 .subscribe((Adherence adherence) -> {
                             mView.setLoadingIndicator(false);
-                            mView.showAdherence(adherence.getData());
+                            mView.getDatum(adherence.getData());
                         },
                         (Throwable error) -> {
                             try {
@@ -72,5 +77,10 @@ public class AdherencePresenter implements AdherenceContract.Presenter {
                         });
 
         mSubscriptions.add(subscription);
+    }
+
+    @Override
+    public void createGeneric(List<Datum> datums, String tablet, String tablets, String noFound) {
+        mView.showAdherence(getGenericList(datums, tablet, tablets, noFound));
     }
 }

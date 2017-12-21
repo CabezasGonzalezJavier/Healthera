@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 
 import com.example.javier.healthera.R;
+import com.example.javier.healthera.model.Generic;
 import com.example.javier.healthera.model.adherence.Datum;
 
 import java.util.List;
@@ -70,14 +71,19 @@ public class AdherenceFragment extends Fragment implements AdherenceContract.Vie
     }
 
     @Override
-    public void showAdherence(List<Datum> datums) {
+    public void getDatum(List<Datum> datums) {
+        mPresenter.createGeneric(datums, getString(R.string.tablet), getString(R.string.tablets), getString(R.string.no_found));
+    }
 
+    @Override
+    public void showAdherence(List<Generic> generics) {
         mRecyclerView.setHasFixedSize(true);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter = new AdherenceAdapter(getActivity(), datums);
+        mAdapter = new AdherenceAdapter(getActivity(), generics);
         mRecyclerView.setAdapter(mAdapter);
         //mAdapter.setOnItemClickListener(this);
+
     }
 
     @Override

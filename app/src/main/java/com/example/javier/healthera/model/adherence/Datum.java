@@ -40,9 +40,33 @@ public class Datum {
     @Expose
     private Integer dateModified;
 
+    public Datum(String remedyId) {
+        this.remedyId = remedyId;
+    }
+
     public Datum(String patientId, String remedyId) {
         this.patientId = patientId;
         this.remedyId = remedyId;
+    }
+    public Datum(String adherenceId, String patientId, String remedyId) {
+        this.adherenceId = adherenceId;
+        this.patientId = patientId;
+        this.remedyId = remedyId;
+    }
+
+    public Datum(String adherenceId, String patientId, String remedyId, Integer doseQuantity){
+        this.adherenceId = adherenceId;
+        this.patientId = patientId;
+        this.remedyId = remedyId;
+        this.doseQuantity = doseQuantity;
+    }
+
+    public Datum(String action, String adherenceId, String patientId, String remedyId, Integer doseQuantity){
+        this.action = action;
+        this.adherenceId = adherenceId;
+        this.patientId = patientId;
+        this.remedyId = remedyId;
+        this.doseQuantity = doseQuantity;
     }
 
     public String getPatientId() {
