@@ -9,16 +9,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import com.example.javier.healthera.R;
+import com.example.javier.healthera.model.token.Datum;
 import com.example.javier.healthera.model.token.Token;
 import com.example.javier.healthera.utils.InteractionListener;
 import com.example.javier.healthera.utils.LoginListener;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit2.http.Body;
 
 import static android.support.design.widget.Snackbar.LENGTH_LONG;
 
@@ -36,6 +42,12 @@ public class LoginFragment extends Fragment implements LoginContract.View {
 
     @BindView(R.id.login_fragment_constraintLayout)
     ConstraintLayout mRelativeLayout;
+
+    @BindView(R.id.login_fragment_username)
+    EditText mUsername;
+
+    @BindView(R.id.login_fragment_password)
+            EditText mPassword;
 
 
     LoginContract.Presenter mPresenter;
@@ -57,6 +69,8 @@ public class LoginFragment extends Fragment implements LoginContract.View {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.login_fragment, container, false);
         ButterKnife.bind(this, view);
+        mUsername.setText("assessment@iosbr.com.br");
+        mPassword.setText("Healthera01");
         return view;
     }
 
@@ -73,27 +87,30 @@ public class LoginFragment extends Fragment implements LoginContract.View {
     @Override
     public void showError() {
         mProgressBar.setVisibility(View.GONE);
-        mRetry.setVisibility(View.VISIBLE);
         Snackbar.make(mRelativeLayout, getActivity().getResources().getText(R.string.error_server).toString(), LENGTH_LONG).show();
-        mRetry.setText(getString(R.string.retry));
     }
 
     @Override
     public void setLoadingIndicator(boolean active) {
         if (!active) {
-            mRetry.setVisibility(View.GONE);
             mProgressBar.setVisibility(View.GONE);
+        } else {
+            mProgressBar.setVisibility(View.VISIBLE);
         }
     }
     @OnClick(R.id.login_fragment_retry_button)
     public void login() {
-        mPresenter.fetch();
+        com.example.javier.healthera.model.token.Datum datumToken = new com.example.javier.healthera.model.token.Datum();
+        List<Datum> listDatumToken = new ArrayList<>();
+        listDatumToken.add(datumToken);
+        mListener.onFragmentInteraction(new Token(listDatumToken));
+        //mPresenter.fetch(mUsername.getText().toString(), mPassword.getText().toString());
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof InteractionListener) {
+        if (context instanceof LoginListener) {
             //init the listener
             mListener = (LoginListener) context;
         } else {

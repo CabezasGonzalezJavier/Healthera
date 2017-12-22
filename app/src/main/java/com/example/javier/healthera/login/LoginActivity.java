@@ -1,12 +1,13 @@
 package com.example.javier.healthera.login;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Window;
 
 import com.example.javier.healthera.HealtheraApplication;
 import com.example.javier.healthera.R;
-import com.example.javier.healthera.adherence.AdherenceFragment;
-import com.example.javier.healthera.adherence.AdherencePresenter;
+import com.example.javier.healthera.adherence.AdherenceActivity;
 import com.example.javier.healthera.model.token.Token;
 import com.example.javier.healthera.utils.LoginListener;
 import com.example.javier.healthera.utils.scheduler.BaseSchedulerProvider;
@@ -26,8 +27,10 @@ public class LoginActivity extends AppCompatActivity implements LoginListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.adherence_activity);
+        getSupportActionBar().hide();
+        setContentView(R.layout.login_activity);
         initializeDagger();
         initFragment();
     }
@@ -47,13 +50,12 @@ public class LoginActivity extends AppCompatActivity implements LoginListener{
             R.id.login_activity_contentFrame);
 
         }
-        String url = "tokens";
-        new LoginPresenter(loginFragment, mSchedulerProvider, url);
+        new LoginPresenter(loginFragment, mSchedulerProvider);
 
     }
 
     @Override
     public void onFragmentInteraction(Token token) {
-
+        startActivity(new Intent(this, AdherenceActivity.class));
     }
 }

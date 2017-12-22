@@ -22,7 +22,7 @@ public interface Service {
             "Accept: application/json",
             "client-id: a4c7fdd994b14c0758e91dc997426f043868d4305702f4484220df51d56497b3"
     })
-    @POST()
+    @POST("tokens/")
     Observable<Token> getToken(@Body String username, @Body String userPassword);
     @Headers({
             "Content-Type: application/json",

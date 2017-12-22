@@ -13,7 +13,7 @@ import com.example.javier.healthera.utils.BaseView;
 public interface LoginContract {
 
     interface Presenter extends BasePresenter {
-        void fetch();
+        void fetch(String userName, String password);
     }
 
     interface View extends BaseView<LoginContract.Presenter> {

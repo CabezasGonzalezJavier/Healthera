@@ -7,10 +7,7 @@ import android.view.View;
 
 import com.example.javier.healthera.HealtheraApplication;
 import com.example.javier.healthera.R;
-import com.example.javier.healthera.adherence.AdherenceFragment;
-import com.example.javier.healthera.adherence.AdherencePresenter;
 import com.example.javier.healthera.model.Generic;
-import com.example.javier.healthera.model.RemoteDataSource;
 import com.example.javier.healthera.utils.scheduler.BaseSchedulerProvider;
 
 import javax.inject.Inject;

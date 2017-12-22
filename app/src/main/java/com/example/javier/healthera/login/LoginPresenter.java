@@ -34,13 +34,13 @@ public class LoginPresenter implements LoginContract.Presenter {
     @NonNull
     private RemoteDataSource mRemoteDataSource;
 
-    public LoginPresenter(@NonNull LoginContract.View view, @NonNull BaseSchedulerProvider provider, String url) {
+    public LoginPresenter(@NonNull LoginContract.View view, @NonNull BaseSchedulerProvider provider) {
 
         this.mView = checkNotNull(view, "view cannot be null!");
         this.mSchedulerProvider = checkNotNull(provider, "schedulerProvider cannot be null");
 
         this.mRemoteDataSource = new RemoteDataSource(new Retrofit.Builder()
-                .baseUrl(URL_BASE+url)
+                .baseUrl(URL_BASE)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build());
@@ -51,7 +51,7 @@ public class LoginPresenter implements LoginContract.Presenter {
 
     @Override
     public void subscribe() {
-        fetch();
+        fetch("","");
     }
 
     @Override
@@ -60,9 +60,9 @@ public class LoginPresenter implements LoginContract.Presenter {
     }
 
     @Override
-    public void fetch() {
+    public void fetch(String userName, String password) {
         mView.setLoadingIndicator(true);
-        Subscription subscription = mRemoteDataSource.getToken("assessment@iosbr.com.br","Healthera01")
+        Subscription subscription = mRemoteDataSource.getToken(userName,password)
                 .subscribeOn(mSchedulerProvider.computation())
                 .observeOn(mSchedulerProvider.ui())
                 .subscribe((Token token) -> {
@@ -72,6 +72,7 @@ public class LoginPresenter implements LoginContract.Presenter {
                         (Throwable error) -> {
                             try {
                                 mView.showError();
+                                mView.setLoadingIndicator(false);
                             } catch (Throwable t) {
                                 throw new IllegalThreadStateException();
                             }
