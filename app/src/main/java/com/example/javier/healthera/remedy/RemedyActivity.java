@@ -4,10 +4,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 
 import com.example.javier.healthera.HealtheraApplication;
 import com.example.javier.healthera.R;
 import com.example.javier.healthera.model.Generic;
+import com.example.javier.healthera.utils.CloseListener;
 import com.example.javier.healthera.utils.scheduler.BaseSchedulerProvider;
 
 import javax.inject.Inject;
@@ -19,24 +21,24 @@ import static com.example.javier.healthera.utils.Utils.addFragmentToActivity;
  * Created by Javier on 21/12/2017.
  */
 
-public class RemedyActivity extends AppCompatActivity {
+public class RemedyActivity extends AppCompatActivity implements CloseListener{
 
     @Inject
     BaseSchedulerProvider mSchedulerProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         super.onCreate(savedInstanceState);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
         setContentView(R.layout.remedy_activity);
         overridePendingTransition(R.anim.appearance_go_in, R.anim.appearance_go_out);
         Generic genericTwo = (Generic) getIntent().getSerializableExtra(SERIALIZABLE_GENERIC);
         initializeDagger();
         initFragment(genericTwo);
 
-    }
-
-    public void back(View view) {
-        finishMyActivity();
     }
 
     @Override
@@ -85,5 +87,10 @@ public class RemedyActivity extends AppCompatActivity {
 
         new RemedyPresenter(remedyFragment, mSchedulerProvider, stringBuilder.toString());
 
+    }
+
+    @Override
+    public void close() {
+        finishMyActivity();
     }
 }
