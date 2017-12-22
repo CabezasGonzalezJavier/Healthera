@@ -51,7 +51,7 @@ public interface Service {
     @Headers({
             "Content-Type: application/json",
             "Accept: application/json",
-            "Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl9pZCI6IjdhN2VmMjcwLWU2MzMtMTFlNy1hODM0LWIwZGE2OTNiOTBjNiIsImV4cCI6MTUyMjQ4OTQ0MywiaWF0IjoxNTEzODQ5NDQzLCJ1c2VyX2lkIjoiOTk4NjNjYjAtZTAwMS0xMWU3LWE4ZDgtMDEwZDRmNTg0ZDRlIn0.DdLSI5IWyf2xc8yvC8N8sUYOx6_LG5_nAc-khcvWsW4",
+            "Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl9pZCI6IjMyMWM3MzYwLWU2ZjktMTFlNy04ZjQyLTc1NWYxNDBmZTk5MiIsImV4cCI6MTUyMjU3NDM2MiwiaWF0IjoxNTEzOTM0MzYyLCJ1c2VyX2lkIjoiOTk4NjNjYjAtZTAwMS0xMWU3LWE4ZDgtMDEwZDRmNTg0ZDRlIn0.ZjAzAQGsCj1whZEmJuKOaLv2ceYKxBk0rnmTxy4bd7Y",
             "client-id: a4c7fdd994b14c0758e91dc997426f043868d4305702f4484220df51d56497b3",
             "app-platform: ios",
             "app-version: 1.4"

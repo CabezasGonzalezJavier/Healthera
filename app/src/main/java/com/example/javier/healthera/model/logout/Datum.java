@@ -7,13 +7,13 @@ import com.google.gson.annotations.SerializedName;
  * Created by Javier on 22/12/2017.
  */
 
-public class Data {
+public class Datum {
 
     @SerializedName("token_id")
     @Expose
     private String tokenId;
 
-    public Data(String tokenId) {
+    public Datum(String tokenId) {
         this.tokenId = tokenId;
     }
 

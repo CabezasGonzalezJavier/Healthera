@@ -2,8 +2,7 @@ package com.example.javier.healthera;
 
 import com.example.javier.healthera.model.RemoteDataSource;
 import com.example.javier.healthera.model.adherence.Adherence;
-import com.example.javier.healthera.model.adherence.Datum;
-import com.example.javier.healthera.model.logout.Data;
+import com.example.javier.healthera.model.logout.Datum;
 import com.example.javier.healthera.model.logout.Logout;
 import com.example.javier.healthera.model.remedy.Remedy;
 import com.example.javier.healthera.model.token.Token;
@@ -44,8 +43,8 @@ public class RemoteDataSourceTest {
     @Before
     public void setUp() {
 
-        Datum datum = new Datum("patiendId", "remedyId");
-        List<Datum> list = new ArrayList<>();
+        com.example.javier.healthera.model.adherence.Datum datum = new com.example.javier.healthera.model.adherence.Datum("patiendId", "remedyId");
+        List<com.example.javier.healthera.model.adherence.Datum> list = new ArrayList<>();
         list.add(datum);
         mResultAdherence = new Adherence(list);
 
@@ -59,8 +58,11 @@ public class RemoteDataSourceTest {
         listDatumToken.add(datumToken);
         mToken = new Token(listDatumToken);
 
-        Data data = new Data("tokenId");
-        mLogout = new Logout(data);
+        Datum data = new Datum("tokenId");
+        List<Datum> listDatumLogout = new ArrayList<>();
+        listDatumLogout.add(data);
+        mLogout = new Logout(listDatumLogout);
+
         mMockWebServer = new MockWebServer();
         mSubscriberAdherence = new TestSubscriber<>();
         mSubscriberRemedy = new TestSubscriber<>();
