@@ -6,6 +6,7 @@ import com.example.javier.healthera.R;
 import com.example.javier.healthera.model.RemoteDataSource;
 import com.example.javier.healthera.model.adherence.Adherence;
 import com.example.javier.healthera.model.adherence.Datum;
+import com.example.javier.healthera.model.logout.Logout;
 import com.example.javier.healthera.utils.scheduler.BaseSchedulerProvider;
 
 import java.util.List;
@@ -89,5 +90,29 @@ public class AdherencePresenter implements AdherenceContract.Presenter {
     @Override
     public void createGeneric(List<Datum> datums, String tablet, String tablets, String noFound) {
         mView.showAdherence(getGenericList(datums, tablet, tablets, noFound));
+    }
+
+    @Override
+    public void fetchLogout() {
+        mView.setLoadingIndicator(true);
+        Subscription subscription = mRemoteDataSource.logout()
+        .subscribeOn(mSchedulerProvider.computation())
+                .observeOn(mSchedulerProvider.ui())
+                .subscribe((Logout logout) -> {
+                            mView.setLoadingIndicator(false);
+                            mView.successfulLogout();
+                        },
+                        (Throwable error) -> {
+                            try {
+                                mView.showError();
+                            } catch (Throwable t) {
+                                throw new IllegalThreadStateException();
+                            }
+
+                        },
+                        () -> {
+                        });
+
+        mSubscriptions.add(subscription);
     }
 }

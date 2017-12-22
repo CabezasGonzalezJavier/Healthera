@@ -16,9 +16,14 @@ public interface AdherenceContract {
     interface Presenter extends BasePresenter {
         void fetch();
         void createGeneric(List<Datum> datums, String tablet, String tablets, String noFound);
+        void fetchLogout();
     }
 
     interface View extends BaseView<Presenter> {
+
+        void logout();
+
+        void successfulLogout();
 
         void getDatum(List<Datum> datums);
 

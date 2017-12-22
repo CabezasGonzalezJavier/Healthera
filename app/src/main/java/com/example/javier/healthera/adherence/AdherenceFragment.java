@@ -17,6 +17,7 @@ import com.example.javier.healthera.R;
 import com.example.javier.healthera.model.Generic;
 import com.example.javier.healthera.model.adherence.Datum;
 import com.example.javier.healthera.utils.InteractionListener;
+import com.example.javier.healthera.utils.SuccessfulLogoutListener;
 
 import java.util.List;
 
@@ -51,6 +52,7 @@ public class AdherenceFragment extends Fragment implements AdherenceContract.Vie
     List<Generic> mGenericList;
 
     InteractionListener mListener;
+    SuccessfulLogoutListener mSuccessfulListener;
 
     public static AdherenceFragment newInstance() {
         return new AdherenceFragment();
@@ -74,6 +76,16 @@ public class AdherenceFragment extends Fragment implements AdherenceContract.Vie
     @Override
     public void setPresenter(AdherenceContract.Presenter presenter) {
         mPresenter = presenter;
+    }
+
+    @Override
+    public void logout() {
+        mPresenter.fetchLogout();
+    }
+
+    @Override
+    public void successfulLogout() {
+        mSuccessfulListener.successfulLogout();
     }
 
     @Override
@@ -135,6 +147,13 @@ public class AdherenceFragment extends Fragment implements AdherenceContract.Vie
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement InteractionListener");
+        }
+
+        if (context instanceof SuccessfulLogoutListener) {
+            mSuccessfulListener = (SuccessfulLogoutListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement SuccessfulLogoutListener");
         }
     }
 

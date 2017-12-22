@@ -3,6 +3,8 @@ package com.example.javier.healthera;
 import com.example.javier.healthera.model.RemoteDataSource;
 import com.example.javier.healthera.model.adherence.Adherence;
 import com.example.javier.healthera.model.adherence.Datum;
+import com.example.javier.healthera.model.logout.Data;
+import com.example.javier.healthera.model.logout.Logout;
 import com.example.javier.healthera.model.remedy.Remedy;
 import com.example.javier.healthera.model.token.Token;
 import com.google.gson.Gson;
@@ -31,11 +33,13 @@ public class RemoteDataSourceTest {
     Adherence mResultAdherence;
     Remedy mRemedy;
     Token mToken;
+    Logout mLogout;
 
     MockWebServer mMockWebServer;
     TestSubscriber<Adherence> mSubscriberAdherence;
     TestSubscriber<Remedy> mSubscriberRemedy;
     TestSubscriber<Token> mSubscriberToken;
+    TestSubscriber<Logout> mSubscriberLogout;
 
     @Before
     public void setUp() {
@@ -55,11 +59,13 @@ public class RemoteDataSourceTest {
         listDatumToken.add(datumToken);
         mToken = new Token(listDatumToken);
 
-
+        Data data = new Data("tokenId");
+        mLogout = new Logout(data);
         mMockWebServer = new MockWebServer();
         mSubscriberAdherence = new TestSubscriber<>();
         mSubscriberRemedy = new TestSubscriber<>();
         mSubscriberToken = new TestSubscriber<>();
+        mSubscriberLogout = new TestSubscriber<>();
     }
 
     @Test
@@ -164,5 +170,38 @@ public class RemoteDataSourceTest {
         //Then
         mSubscriberToken.assertNoErrors();
         mSubscriberToken.assertCompleted();
+    }
+
+    @Test
+    public void serverCallLogoutWithError() {
+        String url = "dfdf/";
+        mMockWebServer.enqueue(new MockResponse().setBody(new Gson().toJson(mLogout)));
+        Retrofit retrofit = new Retrofit.Builder()
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl(mMockWebServer.url(url))
+                .build();
+        RemoteDataSource remoteDataSource = new RemoteDataSource(retrofit);
+//When
+        remoteDataSource.logout();
+
+        mSubscriberLogout.assertNoErrors();
+        mSubscriberLogout.assertCompleted();
+    }
+
+    @Test
+    public void serverCallLogout() {
+        mMockWebServer.enqueue(new MockResponse().setBody(new Gson().toJson(mLogout)));
+        Retrofit retrofit = new Retrofit.Builder()
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl(mMockWebServer.url(URL_BASE))
+                .build();
+        RemoteDataSource remoteDataSource = new RemoteDataSource(retrofit);
+        //When
+        remoteDataSource.logout();
+
+        mSubscriberLogout.assertNoErrors();
+        mSubscriberLogout.assertCompleted();
     }
 }

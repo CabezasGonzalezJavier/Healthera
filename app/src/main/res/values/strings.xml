@@ -3,6 +3,7 @@
     <string name="retry">Retry</string>
     <string name="error_server">There are some problems to bring the data</string>
 
+    <string name="schedule">Schedule</string>
 
     <string name="login">Log in</string>
     <string name="username">EMAIL</string>

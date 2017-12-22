@@ -1,6 +1,7 @@
 package com.example.javier.healthera.model;
 
 import com.example.javier.healthera.model.adherence.Adherence;
+import com.example.javier.healthera.model.logout.Logout;
 import com.example.javier.healthera.model.remedy.Remedy;
 import com.example.javier.healthera.model.token.Token;
 
@@ -34,6 +35,11 @@ public class RemoteDataSource implements Service {
     @Override
     public Observable<Remedy> getRemedy() {
         return api.getRemedy();
+    }
+
+    @Override
+    public Observable<Logout> logout() {
+        return api.logout();
     }
 
 }
